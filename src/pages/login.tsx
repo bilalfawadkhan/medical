@@ -1,37 +1,16 @@
-import React, { useState } from "react";
-import { Keyring } from "@polkadot/keyring";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
-import type { KeyringPair } from "@polkadot/keyring/types";
-
-// Define the type for the props
-interface LoginProps {
-  setAccount: (account: KeyringPair) => void;
-}
-
-const Login: React.FC<LoginProps> = ({ setAccount }) => {
-  const [mnemonic, setMnemonic] = useState<string>("");
-//   const navigate = useNavigate();
-
-  const handleLogin = () => {
-    // const keyring = new Keyring();
-    // const pair = keyring.addFromUri(mnemonic);
-    // setAccount(pair);
-    // navigate("/history");
-  };
-
+const Login: React.FC = () => {
   return (
     <div className="auth-container">
-      <h2>Login</h2>
-      <input
-        type="text"
-        value={mnemonic}
-        onChange={(e) => setMnemonic(e.target.value)}
-        placeholder="Enter mnemonic"
-      />
-      <button onClick={handleLogin}>Login</button>
+      <h1>Medical System Database</h1>
+      <h2>Login with Wallet</h2>
+      <div className="wallet-container">
+        <ConnectButton />
+      </div>
     </div>
   );
-}
+};
 
 export default Login;
