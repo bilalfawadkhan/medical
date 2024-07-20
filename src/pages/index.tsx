@@ -2,6 +2,8 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 import MedicalHistory from "./medicalHistory"; // Assuming MedicalHistory is in the same directory
+import Login from "./login";
+import { KeyringPair } from "@polkadot/keyring/types";
 
 const Home: NextPage = () => {
   const { address } = useAccount();
@@ -18,7 +20,10 @@ const Home: NextPage = () => {
         {address}
         <ConnectButton />
       </div>
-      {address && <MedicalHistory account={{ address }} />}
+      {/* {address && <MedicalHistory account={{ address }} />} */}
+      <Login setAccount={function (account: KeyringPair): void {
+        throw new Error("Function not implemented.");
+      } }/>
     </div>
   );
 };
