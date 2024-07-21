@@ -1,25 +1,31 @@
-// src/pages/about.tsx
-import React from "react";
-import Navbar from "../components/navbar";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import type { NextPage } from "next";
+import { useAccount } from "wagmi";
+import MedicalHistory from "./medicalHistory"; // Assuming MedicalHistory is in the same directory
+import Login from "./login";
+import { KeyringPair } from "@polkadot/keyring/types";
 
-const Home: React.FC = () => {
+const Home: NextPage = () => {
+  const { address } = useAccount();
+
   return (
-    <div className="about-container">
-      <Navbar />
-      <div className="content">
-        <h1>About Us</h1>
-        <p>
-          Welcome to the Medical System Database. Our goal is to provide a
-          secure and efficient platform for managing medical records.
-        </p>
-        <p>
-          Our system allows users to add, view, and manage their medical records
-          in a seamless manner.
-        </p>
-        <p>
-          We are committed to ensuring the privacy and security of your data.
-        </p>
+    <div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          padding: 12,
+        }}
+      >
+        {address}
+        <ConnectButton />
       </div>
+      {/* {address && <MedicalHistory account={{ address }} />} */}
+      <Login
+        setAccount={function (account: KeyringPair): void {
+          throw new Error("Function not implemented.");
+        }}
+      />
     </div>
   );
 };

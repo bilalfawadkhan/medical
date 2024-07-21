@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/router";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Web3 from "web3";
 import type { KeyringPair } from "@polkadot/keyring/types";
-import Navbar from "../components/navbar";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
-// Define the type for the props
 interface LoginProps {
   setAccount: (account: KeyringPair) => void;
 }
@@ -21,28 +21,16 @@ const Login: React.FC<LoginProps> = ({ setAccount }) => {
         const accounts = await web3.eth.getAccounts();
         const account = accounts[0];
 
-        // Message to be signed
         const message = "Please sign this message to authenticate.";
         const signature = await web3.eth.personal.sign(message, account, "");
 
-        // Optionally, verify the signature on the server side
-        console.log("Account:", account);
-        console.log("Signature:", signature);
-
-        // Verify the signature
         const recoveredAccount = await web3.eth.personal.ecRecover(
           message,
           signature,
         );
 
         if (recoveredAccount.toLowerCase() === account.toLowerCase()) {
-          console.log("Signature is valid. Account:", account);
-
-          // Here you would convert the account to a KeyringPair and set it
-          // setAccount(convertToKeyringPair(account));
-
-          // Navigate to the next page after successful login
-          router.push("/medicalRecords");
+          router.push("/medicalHistory");
         } else {
           console.error("Signature validation failed.");
         }
@@ -58,14 +46,22 @@ const Login: React.FC<LoginProps> = ({ setAccount }) => {
     <>
       <Navbar />
       <div className="auth-container">
-        <h1>Medical System Database</h1>
-        <h2>Login with Wallet</h2>
-        <div className="wallet-container" onClick={handleLogin}>
-          <ConnectButton/>
+        <div className="welcome-message">
+          <h1>Welcome to the Medical System Database</h1>
+          <p>
+            Securely log in to manage your medical records with ease. Please
+            connect your wallet to get started.
+          </p>
+        </div>
+        <div className="login-content">
+          <h2>Login to Edit the Data</h2>
+          <div className="wallet-container" onClick={handleLogin}>
+            <ConnectButton />
+          </div>
         </div>
       </div>
-
-      <style jsx global>{`
+      <Footer />
+      <style jsx>{`
         .auth-container {
           max-width: 400px;
           margin: 50px auto;
@@ -78,11 +74,21 @@ const Login: React.FC<LoginProps> = ({ setAccount }) => {
           flex-direction: column;
           align-items: center;
           text-align: center;
+          flex: 1; /* Ensures the container expands to fill the space */
+        }
+
+        .welcome-message {
+          margin-bottom: 20px;
         }
 
         .auth-container h1 {
           color: #0366d6;
           margin-bottom: 0.5rem;
+        }
+
+        .auth-container p {
+          font-size: 1.1em;
+          color: #333;
         }
 
         .auth-container h2 {
@@ -92,19 +98,22 @@ const Login: React.FC<LoginProps> = ({ setAccount }) => {
 
         .wallet-container {
           margin-top: 20px;
+          width: 100%; /* Ensures the button is not stretched */
+          display: flex;
+          justify-content: center;
         }
 
         button {
-          display: block;
-          width: 100%;
-          padding: 8px;
-          margin: 8px 0;
+          display: inline-block;
+          width: auto;
+          padding: 8px 16px;
           background-color: #0366d6;
           color: white;
           border: none;
           border-radius: 4px;
           cursor: pointer;
           font-size: 1em;
+          margin-top: 20px;
         }
 
         button:hover {
