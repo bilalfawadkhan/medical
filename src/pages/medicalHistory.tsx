@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+//import Navbar from "../components/Navbar";
 
 interface MedicalRecord {
   account: string;
@@ -26,10 +27,8 @@ const MedicalHistory: React.FC = () => {
   };
 
   return (
-    <div>
-      <nav className="navbar">
-        <h2>Medical System</h2>
-      </nav>
+    <div className="about-container">
+      <Navbar />
       <div className="logged-in-container">
         <h2>Add Medical Record</h2>
         <label>
