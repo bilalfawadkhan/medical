@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Web3 from "web3";
 import type { KeyringPair } from "@polkadot/keyring/types";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/navbar";
 
 // Define the type for the props
 interface LoginProps {
@@ -42,7 +42,7 @@ const Login: React.FC<LoginProps> = ({ setAccount }) => {
           // setAccount(convertToKeyringPair(account));
 
           // Navigate to the next page after successful login
-          // router.push("/dashboard");
+          router.push("/medicalRecords");
         } else {
           console.error("Signature validation failed.");
         }
@@ -60,8 +60,8 @@ const Login: React.FC<LoginProps> = ({ setAccount }) => {
       <div className="auth-container">
         <h1>Medical System Database</h1>
         <h2>Login with Wallet</h2>
-        <div className="wallet-container">
-          <ConnectButton />
+        <div className="wallet-container" onClick={handleLogin}>
+          <ConnectButton/>
         </div>
       </div>
 
