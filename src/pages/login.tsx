@@ -3,8 +3,8 @@ import { useRouter } from "next/router";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Web3 from "web3";
 import type { KeyringPair } from "@polkadot/keyring/types";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Navbar from "../components/navbar";
+import Footer from "../components/footer";
 
 interface LoginProps {
   setAccount: (account: KeyringPair) => void;
