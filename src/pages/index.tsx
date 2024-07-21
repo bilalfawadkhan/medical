@@ -17,8 +17,8 @@ const Home: NextPage = () => {
           padding: 12,
         }}
       >
-        {address}
-        <ConnectButton />
+        {/* {address} */}
+        {/* <ConnectButton /> */}
       </div>
       {/* {address && <MedicalHistory account={{ address }} />} */}
       <Login

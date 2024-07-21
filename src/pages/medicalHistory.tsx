@@ -1,48 +1,88 @@
 // src/pages/medical-history.tsx
 import React, { useState, useEffect } from "react";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/navbar";
+import axios from 'axios';
+import { useAccount } from "wagmi";
+
+// Ensure Axios includes CORS headers
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+axios.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS';
+axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'Content-Type, Authorization';
 
 interface MedicalRecord {
-  account: string;
   bloodType: string;
   sicknesses: string;
   allergies: string;
   medications: string;
   emergencyContact: string;
+  addresses: string
 }
 
 const MedicalHistory: React.FC = () => {
   const [records, setRecords] = useState<MedicalRecord[]>([]);
   const [newRecord, setNewRecord] = useState<MedicalRecord>({
-    account: "",
     bloodType: "",
     sicknesses: "",
     allergies: "",
     medications: "",
     emergencyContact: "",
+    addresses: "",
   });
+  const [finalRecord, setFinalRecord] = useState<MedicalRecord[]>([]);
+
+  const { address } = useAccount();
 
   useEffect(() => {
     setRecords(getRecords());
   }, []);
 
   const handleAddRecord = () => {
-    if (isValidRecord(newRecord)) {
-      const record: MedicalRecord = { ...newRecord, account: "defaultAccount" };
-      saveRecord(record);
+    console.log('done sent ' + newRecord);
+      console.log("inin");
+      const record: MedicalRecord = { ...newRecord };
+      // saveRecord(record);
       setRecords([...records, record]);
       setNewRecord({
-        account: "",
         bloodType: "",
         sicknesses: "",
         allergies: "",
         medications: "",
         emergencyContact: "",
+        addresses: address || "",
       });
-    } else {
-      alert("Please fill in all fields.");
+      sendRecordToServer(record);
+    
+  };
+
+
+
+  const sendRecordToServer = async (record: MedicalRecord) => {
+    try {
+      const response = await axios.post('http://localhost:4000/api/createData', record);
+      console.log('Record sent successfully:', response.data);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error('Axios error:', error.response?.data || error.message);
+      } else {
+        console.error('Unexpected error:', error);
+      }
     }
   };
+
+  const retrieveRecordFromServer = async () => {
+    try {
+      const response = await axios.get('http://localhost:4000/api/getData');
+      console.log('Record retrieved successfully:', response.data.message);
+      setFinalRecord( response.data.message);
+
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error('Axios error:', error.response?.data || error.message);
+      } else {
+        console.error('Unexpected error:', error);
+      }
+    }
+  }
 
   const isValidRecord = (record: MedicalRecord) => {
     return Object.values(record).every((value) => value.trim() !== "");
@@ -110,9 +150,12 @@ const MedicalHistory: React.FC = () => {
             Add Record
           </button>
         </form>
+        <button type="button" onClick={retrieveRecordFromServer} >
+          Get Record 
+        </button>
         <h2>Your Records</h2>
         <ul>
-          {records.map((record, index) => (
+          {finalRecord.map((record, index) => (
             <li key={index} className="record-item">
               <p>
                 <strong>Blood Type:</strong> {record.bloodType}
