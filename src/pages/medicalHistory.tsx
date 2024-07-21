@@ -72,8 +72,8 @@ const MedicalHistory: React.FC = () => {
   const retrieveRecordFromServer = async () => {
     try {
       const response = await axios.get('http://localhost:4000/api/getData');
-      console.log('Record retrieved successfully:', response.data.message);
-      setFinalRecord( response.data.message);
+      console.log('Record retrieved successfully:', response.data.message.users);
+      setFinalRecord( response.data.message.users);
 
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -155,25 +155,29 @@ const MedicalHistory: React.FC = () => {
         </button>
         <h2>Your Records</h2>
         <ul>
-          {finalRecord.map((record, index) => (
-            <li key={index} className="record-item">
-              <p>
-                <strong>Blood Type:</strong> {record.bloodType}
-              </p>
-              <p>
-                <strong>Sicknesses:</strong> {record.sicknesses}
-              </p>
-              <p>
-                <strong>Allergies:</strong> {record.allergies}
-              </p>
-              <p>
-                <strong>Medications:</strong> {record.medications}
-              </p>
-              <p>
-                <strong>Emergency Contact:</strong> {record.emergencyContact}
-              </p>
-            </li>
-          ))}
+          {finalRecord.length > 0 && (
+            <ul>
+              {finalRecord.map((record, index) => (
+                <li key={index} className="record-item">
+                  <p>
+                    <strong>Blood Type:</strong> {record.blood}
+                  </p>
+                  <p>
+                    <strong>Sicknesses:</strong> {record.sickness}
+                  </p>
+                  <p>
+                    <strong>Allergies:</strong> {record.allergy}
+                  </p>
+                  <p>
+                    <strong>Medications</strong> {record.emeContact}
+                  </p>
+                  <p>
+                    <strong>Emergency Contact:</strong> {record.hash}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          )}
         </ul>
       </div>
       <style jsx>{`
