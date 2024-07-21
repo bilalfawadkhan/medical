@@ -4,8 +4,9 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Web3 from "web3";
 import type { KeyringPair } from "@polkadot/keyring/types";
 import Navbar from "../components/Navbar";
-
+import Footer from "../components/footer";
 // Define the type for the props
+
 interface LoginProps {
   setAccount: (account: KeyringPair) => void;
 }
@@ -59,10 +60,11 @@ const Login: React.FC<LoginProps> = ({ setAccount }) => {
       <Navbar />
       <div className="auth-container">
         <h1>Medical System Database</h1>
-        <h2>Login with Wallet</h2>
+        <h2>Login to Edit the Data</h2>
         <div className="wallet-container" onClick={handleLogin}>
           <ConnectButton />
         </div>
+        {/* <Footer /> */}
       </div>
 
       <style jsx global>{`
