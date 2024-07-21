@@ -42,7 +42,7 @@ const Login: React.FC<LoginProps> = ({ setAccount }) => {
           // setAccount(convertToKeyringPair(account));
 
           // Navigate to the next page after successful login
-          // router.push("/dashboard");
+          router.push("/medicalHistory");
         } else {
           console.error("Signature validation failed.");
         }
@@ -60,7 +60,7 @@ const Login: React.FC<LoginProps> = ({ setAccount }) => {
       <div className="auth-container">
         <h1>Medical System Database</h1>
         <h2>Login with Wallet</h2>
-        <div className="wallet-container">
+        <div className="wallet-container" onClick={handleLogin}>
           <ConnectButton />
         </div>
       </div>
